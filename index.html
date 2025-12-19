@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025-2026 Зорилтууд</title>
+    <link href='https://fonts.googleapis.com/css?family=Hind|Montserrat' rel='stylesheet' type='text/css'>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #fce4ec;
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .container label, .container .message, .container .buttons {
+            pointer-events: auto;
+        }
+
+        .heart {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            text-align: center;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .heart > img {
+            width: 200px;
+            height: auto;
+        }
+
+        .message {
+            padding: 40px;
+            background-color: #fffdfd;
+            width: 80%;
+            max-width: 700px;
+            height: 0;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scaleY(0);
+            transform-origin: center;
+            z-index: 5;
+            overflow-y: auto; /* Текст их тул гүйлгэж харах боломжтой */
+            border: 2px solid #f48fb1;
+            outline: 12px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* Текстийн стиль */
+        h1, h2, p, li { font-family: 'Hind', sans-serif; color: #333; line-height: 1.6; }
+        h1 { font-size: 22px; text-align: center; color: #d81b60; margin-bottom: 10px; }
+        h2 { font-size: 18px; color: #ad1457; border-bottom: 1px dashed #f48fb1; padding-bottom: 5px; margin-top: 20px; }
+        p { margin: 10px 0; font-size: 15px; }
+        .highlight { color: #d81b60; font-weight: bold; }
+
+        .buttons {
+            position: fixed;
+            width: 100%;
+            bottom: 30px;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            font-family: "Montserrat", sans-serif;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #f48fb1;
+            padding: 10px 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        button:hover { background: #fce4ec; transform: translateY(-2px); }
+
+        /* Анимэйшнүүд */
+        @keyframes openmsg {
+            0% { height: 0; opacity: 0; transform: translate(-50%, -50%) scaleY(0); }
+            100% { height: 80%; opacity: 1; transform: translate(-50%, -50%) scaleY(1); }
+        }
+
+        @keyframes heartMove {
+            0% { top: 50%; }
+            100% { top: 92%; transform: translate(-50%, 0); }
+        }
+
+        .openNor { animation: openmsg 3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .closeNor { animation: openmsg 1.5s ease-in reverse forwards; }
+        .openHer { animation: heartMove 2.5s ease-in-out forwards; }
+        .closeHer { animation: heartMove 1.5s ease-in reverse forwards; }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .beating { animation: beat 1.5s infinite ease-in-out; }
+
+        /* Гүйлгэгч зураасны стиль */
+        .message::-webkit-scrollbar { width: 6px; }
+        .message::-webkit-scrollbar-track { background: #f1f1f1; }
+        .message::-webkit-scrollbar-thumb { background: #f48fb1; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+        <label>
+            <div class="heart">
+                <img src="https://i.imgur.com/jWEjCJj.png" alt="Heart">
+            </div>
+            <input id="messageState" type="checkbox" style="display:none"/>
+        </label>
+
+        <div class="message">
+            <h1>✨🎄 2025 ОНЫ ЭРГЭЦҮҮЛЭЛ & 2026 ОНЫ ЗОРИЛТУУД 🎄✨</h1>
+            
+            <p>2025 он миний хувьд том өөрчлөлт, бодит туршлагаар дүүрэн жил байлаа.</p>
+
+            <h2>🌟 2025 он</h2>
+            <p>• 2025 онд <b>албаны дарга</b> болж, удирдлагын түвшинд бодит туршлага хуримтлуулсан он байв.</p>
+            <p>• Олон хүнийг ажилд авч, зарим хүнийг баг хамт олноосоо хасах, удирдах ур чадвараа дээшлүүлэх сорилтуудтай тулгарлаа.</p>
+        
+            <p>• Өөрийн мэргэжлийн хувьд <b>Career Up</b> хийнэ гэж зорьсон маань бодитоор биелж, ур чадвар, хариуцлага, нөлөөлөл минь өссөн.</p>
+            <p>Гэхдээ би үүгээр ханахгүй, 2026 онд илүү ихийг сурч, илүү өндөр түвшинд өөрийгөө хөгжүүлэх шийдэлтэй байна 🚀</p>
+
+            <h2>🎄✨ 2026 ОНЫ ЗОРИЛТУУД ✨🎄</h2>
+            
+            <p class="highlight">🔥 Ажлын зорилт</p>
+            <p>2026 онд охин компаниудын өгсөн үнэлгээг <b>84%-аас 90%+</b> болгох тодорхой зорилт тавин ажиллана. Энэхүү зорилтын цаад утга нь:</p>
+            <p>✅ Tavanbogd Group-ийн Маркетингийн газрын нэр хүндийг өсгөх<br>
+               ✅ Маркетинг болон брэндийн нөлөөллийг илүү өндөр түвшинд гаргах</p>
+          
+
+            <p class="highlight">🚀 Хувь хүний хөгжил</p>
+            <p>• Өөрийн мэргэжлийн мэдлэг, манлайлал, стратеги сэтгэлгээг дараагийн шатанд гаргах<br>
+               • Өөртөө илүү хатуу, зорилготой, тасралтгүй суралцдаг байх</p>
+
+            <p class="highlight"> Хувийн амьдрал</p>
+       
+               • Ажил, амьдралын тэнцвэрийг хадгалсан, аз жаргалтай ирээдүйг бүтээхэд анхаарна 🎁</p>
+
+            <hr style="border: 0; border-top: 1px dashed #f48fb1; margin: 20px 0;">
+            <p style="text-align: center; font-style: italic;">🎅🎄 Шинэ он бол шинэ боломж, шинэ шийдвэр, шинэ ялалт!</p>
+            <p style="text-align: center; font-weight: bold;">2026 он бол илүү ухаалгаар, илүү зорилготой, илүү үр дүнтэй жил байх болно ✨🔥</p>
+        </div>
+
+        <div class="buttons">
+            <button type="button" id="colors-btn">✨ Өнгө солих</button>
+        </div>
+    </div>
+
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js'></script>
+
+    <script type="module">
+        import AttractionCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.26/build/cursors/attraction1.min.js"
+
+        const app = AttractionCursor(document.getElementById('canvas'), {
+            particles: { attractionIntensity: 0.8, size: 1.2 },
+        })
+
+        document.getElementById('colors-btn').addEventListener('click', () => {
+            app.particles.light1.color.set(Math.random() * 0xffffff)
+            app.particles.light2.color.set(Math.random() * 0xffffff)
+        })
+
+        $("#messageState").on("change", function() {
+            $(".message").removeClass("openNor closeNor");
+            $(".heart").removeClass("openHer closeHer beating");
+
+            if ($(this).is(":checked")) {
+                $(".message").addClass("openNor");
+                $(".heart").addClass("openHer");
+                $("body").stop().animate({"backgroundColor": "#f8bbd0"}, 3000);
+            } else {
+                $(".message").addClass("closeNor");
+                $(".heart").addClass("closeHer");
+                $("body").stop().animate({"backgroundColor": "#fce4ec"}, 1500);
+            }
+        });
+
+        $(".heart").on('animationend webkitAnimationEnd', function() {
+            if ($("#messageState").is(":checked")) {
+                $(this).addClass("beating");
+            }
+        });
+    </script>
+</body>
+</html>
